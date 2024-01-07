@@ -1,0 +1,5 @@
+mongodb:
+  database: "fast-food-pagamento"
+  url: "mongodb://127.0.0.1:47047"
+  username: "test"
+  password: "test"
