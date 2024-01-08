@@ -1,5 +1,6 @@
 package br.com.fiap.postech.pagamento.adapter.inbound
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import java.math.BigDecimal
 import java.util.*
 

@@ -4,7 +4,6 @@ import br.com.fiap.postech.pagamento.application.domain.models.Pagamento
 import com.amazonaws.services.sqs.AmazonSQS
 import com.amazonaws.services.sqs.model.SendMessageRequest
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.internal.authentication.AwsCredentialHelper.LOGGER
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,9 +17,7 @@ class QueueProducer(
     @Value("\${aws.sqs.notificacao-pagamento-sync.url}")
     private val serviceQueueUrl: String,
     @Autowired
-    private val amazonSQS: AmazonSQS,
-    @Autowired
-    private val objectMapper: ObjectMapper
+    private val amazonSQS: AmazonSQS
 ) {
 
     fun sendMessage(pagamento: Pagamento) {
@@ -29,8 +26,8 @@ class QueueProducer(
         var sendMessageRequest: SendMessageRequest? = null
         try {
             sendMessageRequest =
-                SendMessageRequest().withQueueUrl("http://localhost:4566/000000000000/sample-queue.fifo")
-                    .withMessageBody(objectMapper.writeValueAsString(pagamento))
+                SendMessageRequest().withQueueUrl(serviceQueueUrl)
+                    .withMessageBody(ObjectMapper().writeValueAsString(pagamento))
                     .withMessageGroupId("Sample Message")
                     .withMessageDeduplicationId(UUID.randomUUID().toString())
             amazonSQS.sendMessage(sendMessageRequest)
