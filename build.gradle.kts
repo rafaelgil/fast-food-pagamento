@@ -32,7 +32,6 @@ dependencies {
 
 	testImplementation(group = "io.mockk", name = "mockk", version = "1.10.2")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
-	testImplementation("com.callibrity.logging:log-tracker:1.0.1")
 }
 
 tasks.withType<KotlinCompile> {
