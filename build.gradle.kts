@@ -24,7 +24,11 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.json:json:20231013")
-	implementation("org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.1.RELEASE")
+
+	implementation("org.springframework.cloud:spring-cloud-aws-messaging:2.1.3.RELEASE")
+	implementation("software.amazon.awssdk:sqs:2.16.24")
+	implementation("com.amazonaws:aws-java-sdk-core:1.11.589")
+	implementation("com.amazonaws:aws-java-sdk:1.11.584")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")

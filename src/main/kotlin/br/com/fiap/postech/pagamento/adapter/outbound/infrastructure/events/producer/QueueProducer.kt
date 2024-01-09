@@ -1,32 +1,39 @@
 package br.com.fiap.postech.pagamento.adapter.outbound.infrastructure.events.producer
 
-import br.com.fiap.postech.pagamento.application.domain.models.Pagamento
-import com.amazonaws.services.sqs.AmazonSQS
-import com.amazonaws.services.sqs.model.SendMessageRequest
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.mongodb.internal.authentication.AwsCredentialHelper.LOGGER
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate
+import org.springframework.messaging.Message
+import org.springframework.messaging.support.MessageBuilder
 import org.springframework.stereotype.Component
-import java.util.*
 
 
 @Component
 class QueueProducer(
-    @Value("\${aws.sqs.notificacao-pagamento-sync.url}")
-    private val serviceQueueUrl: String,
+    @Value("\${aws.queue.name}")
+    private val destination: String,
     @Autowired
-    private val amazonSQS: AmazonSQS
+    val queueMessagingTemplate: QueueMessagingTemplate
 ) {
 
+
+    fun sendMessage(messagePayload: String) {
+
+        val msg: Message<String> = MessageBuilder.withPayload(messagePayload)
+            .build()
+
+        // Enviando a mensagem criada para o a fila "testQueue"
+        queueMessagingTemplate.send(destination, msg)
+    }
+
+    /*
     fun sendMessage(pagamento: Pagamento) {
         //LOGGER.info("Generating event : {}", pagamento)
         println("Evento pagamento ${pagamento}" )
         var sendMessageRequest: SendMessageRequest? = null
         try {
             sendMessageRequest =
-                SendMessageRequest().withQueueUrl(serviceQueueUrl)
+                SendMessageRequest().withQueueUrl("http://localhost:4566/000000000000/sample-queue.fifo")
                     .withMessageBody(ObjectMapper().writeValueAsString(pagamento))
                     .withMessageGroupId("Sample Message")
                     .withMessageDeduplicationId(UUID.randomUUID().toString())
@@ -39,6 +46,6 @@ class QueueProducer(
             println(e)
             //LOGGER.error("Exception ocurred while pushing event to sqs : {} and stacktrace ; {}", e.message, e)
         }
-    }
+    }*/
 
 }

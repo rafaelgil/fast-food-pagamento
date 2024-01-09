@@ -5,6 +5,9 @@ spring:
   mongodb:
     embedded:
       version: 4.0.0
+  main:
+    allow-bean-definition-overriding: true
+
 
 cloud:
   aws:
@@ -19,9 +22,13 @@ cloud:
       uri: http://localhost:4566
 
 aws:
-  sqs:
-    notificacao-pagamento-sync:
-      url: http://localhost:4566/000000000000/notificacao-pagamento-sync.fifo
+  queue:
+    name: notificacao-pagamento-sync
+
+#aws:
+#  sqs:
+#    notificacao-pagamento-sync:
+#      url: http://localhost:4566/000000000000/notificacao-pagamento-sync.fifo
 
 mongodb:
   authentication-database: admin
