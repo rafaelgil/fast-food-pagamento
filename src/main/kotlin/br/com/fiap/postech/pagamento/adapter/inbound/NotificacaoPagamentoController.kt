@@ -12,18 +12,10 @@ class NotificacaoPagamentoController(
     val pagamentoServicePort: PagamentoServicePort
 ) {
 
-    @PutMapping("/{pagamentoId}/pagar")
+    @PutMapping("/{pagamentoId}")
     @ResponseStatus(HttpStatus.OK)
     fun atualizarPagamentoParaPago(@PathVariable pagamentoId: String): ResponseEntity<Void> {
         pagamentoServicePort.atualizarPagamento(pagamentoId = pagamentoId, statusPagamento = StatusPagamento.PAGO)
         return ResponseEntity.ok().build<Void>()
     }
-
-    @PutMapping("/{pagamentoId}/nao-pagar")
-    @ResponseStatus(HttpStatus.OK)
-    fun atualizarPagamentoParaNaoPago(@PathVariable pagamentoId: String): ResponseEntity<Void> {
-        pagamentoServicePort.atualizarPagamento(pagamentoId = pagamentoId, statusPagamento = StatusPagamento.NAO_PAGO)
-        return ResponseEntity.ok().build<Void>()
-    }
-
 }

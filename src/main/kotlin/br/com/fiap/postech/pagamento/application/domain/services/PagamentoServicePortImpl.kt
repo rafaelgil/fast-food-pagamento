@@ -31,7 +31,7 @@ class PagamentoServicePortImpl(
 
         val pagamentoAtualizado = pagamentoRepositoryPort.save(pagamento)
 
-        queueProducer.sendMessage(ObjectMapper().writeValueAsString(pagamentoAtualizado))
+        queueProducer.sendMessage(pagamentoAtualizado)
 
         return pagamentoAtualizado
     }

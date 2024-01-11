@@ -25,11 +25,6 @@ aws:
   queue:
     name: notificacao-pagamento-sync
 
-#aws:
-#  sqs:
-#    notificacao-pagamento-sync:
-#      url: http://localhost:4566/000000000000/notificacao-pagamento-sync.fifo
-
 mongodb:
   authentication-database: admin
   database: fast-food-pagamento
