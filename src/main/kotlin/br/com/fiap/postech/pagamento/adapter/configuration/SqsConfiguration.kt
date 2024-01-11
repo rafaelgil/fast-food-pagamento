@@ -1,4 +1,4 @@
-package br.com.fiap.postech.pagamento.adapter.configuration
+/*package br.com.fiap.postech.pagamento.adapter.configuration
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 
 
 @Configuration
@@ -27,7 +26,6 @@ class SQSConfig {
     private val sqsUrl: String? = null
 
     @Bean
-    @Primary
     fun amazonSQSAsync(): AmazonSQSAsync {
         return AmazonSQSAsyncClientBuilder.standard()
             .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsUrl, region))
@@ -36,7 +34,7 @@ class SQSConfig {
     }
 
     @Bean
-    fun queueMessagingTemplate(): QueueMessagingTemplate {
-        return QueueMessagingTemplate(amazonSQSAsync())
+    fun queueMessagingTemplate(amazonSQSAsync: AmazonSQSAsync): QueueMessagingTemplate {
+        return QueueMessagingTemplate(amazonSQSAsync)
     }
-}
+}*/

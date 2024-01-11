@@ -1,6 +1,5 @@
 package br.com.fiap.postech.pagamento.adapter.inbound
 
-import br.com.fiap.postech.pagamento.application.domain.dtos.ClienteDTO
 import br.com.fiap.postech.pagamento.application.domain.dtos.PedidoDTO
 import br.com.fiap.postech.pagamento.application.domain.models.Pagamento
 import br.com.fiap.postech.pagamento.application.domain.valueobject.DestinatarioPix
@@ -8,7 +7,7 @@ import br.com.fiap.postech.pagamento.application.domain.valueobject.Destinatario
 fun PedidoRequest.toPedidoDTO() = 
     PedidoDTO(
         id = id,
-        cliente = cliente.toClienteDto(),
+        clienteId = clienteId,
         valor = valor,
         destinatarioPix = destinatarioPix.toDestinatarioPix()
     )
@@ -19,14 +18,6 @@ fun DestinatarioPixRequest.toDestinatarioPix() =
         chaveDestinatario = chaveDestinatario,
         descricao = descricao,
         cidade = cidade
-    )
-
-fun ClienteRequest.toClienteDto() = 
-    ClienteDTO(
-        id = id,
-        cpf = cpf,
-        nome = nome,
-        email = email
     )
 
 fun Pagamento.toPagamentoResponse() =

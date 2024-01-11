@@ -6,7 +6,7 @@ import java.util.*
 
 data class PedidoDTO(
     val id: UUID,
-    val cliente: ClienteDTO?,
+    val clienteId: UUID,
     val valor: BigDecimal,
     val destinatarioPix: DestinatarioPix
 )
