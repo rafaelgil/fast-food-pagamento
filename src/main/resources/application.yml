@@ -19,7 +19,7 @@ cloud:
       access-key: localstack
       secret-key: localstack
     end-point:
-      uri: http://localhost:4566
+      uri: ${URL_SQS:http://localhost:4566}
 
 aws:
   queue:
@@ -28,6 +28,6 @@ aws:
 mongodb:
   authentication-database: admin
   database: fast-food-pagamento
-  url: mongodb://127.0.0.1:27017
-  username: root
-  password: rootpassword
+  url: ${MONGO_URL:mongodb://127.0.0.1:27017}
+  username: ${MONGO_USER:root}
+  password: ${MONGO_PASSWORD:rootpassword}
