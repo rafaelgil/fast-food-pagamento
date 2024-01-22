@@ -19,7 +19,7 @@ cloud:
       access-key: localstack
       secret-key: localstack
     end-point:
-      uri: http://localhost:4566
+      uri: https://sqs.us-east-1.amazonaws.com/372431383879
 
 aws:
   queue:
@@ -28,6 +28,6 @@ aws:
 mongodb:
   authentication-database: admin
   database: fast-food-pagamento
-  url: mongodb://127.0.0.1:27017
-  username: root
-  password: rootpassword
+  url: mongodb://fast_food_pagamento_admin:fast_food_pagamento_root@fast-food-docdb-cluster.cluster-csxw4cuf3uvj.us-east-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+  username: fast_food_pagamento_admin
+  password: fast_food_pagamento_root
