@@ -19,7 +19,7 @@ cloud:
       access-key: localstack
       secret-key: localstack
     end-point:
-      uri: https://sqs.us-east-1.amazonaws.com/372431383879
+      uri: ${URL_SQS:http://localhost:4566}
 
 aws:
   queue:
