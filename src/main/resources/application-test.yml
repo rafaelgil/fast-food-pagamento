@@ -1,0 +1,6 @@
+mongodb:
+  authentication-database: admin
+  database: fast-food-pagamento
+  url: ${MONGO_URL:mongodb://127.0.0.1:27017}
+  username: ${MONGO_USER:root}
+  password: ${MONGO_PASSWORD:rootpassword}

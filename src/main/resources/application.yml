@@ -2,12 +2,15 @@ server:
   port: 8090
 
 spring:
+  data:
+    mongodb:
+      uri: mongodb://root:rootpassword@127.0.0.1:27017/admin
+      database: fast-food-pagamento-um
   mongodb:
     embedded:
       version: 4.0.0
   main:
     allow-bean-definition-overriding: true
-
 
 cloud:
   aws:
@@ -28,6 +31,6 @@ aws:
 mongodb:
   authentication-database: admin
   database: fast-food-pagamento
-  url: ${MONGO_URL:mongodb://127.0.0.1:27017}
-  username: ${MONGO_USER:root}
-  password: ${MONGO_PASSWORD:rootpassword}
+  url: mongodb://127.0.0.1:27017
+  username: root
+  password: rootpassword
