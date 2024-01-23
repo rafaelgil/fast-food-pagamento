@@ -1,15 +1,29 @@
 version: '3'
 services:
   localstack:
-    image: localstack/localstack:0.11.5
+    image: localstack/localstack:0.14.2
     ports:
       - "4566-4584:4566-4584"
-      - "8080:8080"
+      - "8081:8080"
     environment:
-      - SERVICES=${SERVICES- ssm}
+      - SERVICES=sqs
     volumes:
-      - './.localstack:/tmp/localstack'
       - '/var/run/docker.sock:/var/run/docker.sock'
+
+  setup-resources:
+    image: amazon/aws-cli:latest
+    environment:
+      - AWS_ACCESS_KEY_ID=localstack
+      - AWS_SECRET_ACCESS_KEY=localstack
+      - AWS_DEFAULT_REGION=us-east-1
+    entrypoint: /bin/sh -c
+    command: >
+      "
+        sleep 20;                
+        aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificacao-pagamento-sync
+      "
+    depends_on:
+      - localstack
 
   mongodb_container:
     image: mongo:latest
@@ -18,8 +32,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     ports:
       - 27017:27017
-    volumes:
-      - mongodb_data_container:/data/db
 
 volumes:
   mongodb_data_container:
