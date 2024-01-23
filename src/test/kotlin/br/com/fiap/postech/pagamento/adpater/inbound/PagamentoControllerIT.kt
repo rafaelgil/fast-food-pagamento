@@ -1,6 +1,5 @@
 package br.com.fiap.postech.pagamento.adpater.inbound
 
-import br.com.fiap.postech.pagamento.adapter.inbound.ClienteRequest
 import br.com.fiap.postech.pagamento.adapter.inbound.DestinatarioPixRequest
 import br.com.fiap.postech.pagamento.adapter.inbound.PagamentoController
 import br.com.fiap.postech.pagamento.adapter.inbound.PedidoRequest
@@ -61,12 +60,7 @@ internal class PagamentoControllerIT {
 
         val pedidoRequest = PedidoRequest(
             id = UUID.randomUUID(),
-            cliente = ClienteRequest(
-                id = UUID.randomUUID(),
-                cpf = "16843717080",
-                nome = "Joao de Souza",
-                email = "joao@mock.com"
-            ),
+            clienteId = UUID.fromString("cad5f1c8-3cdf-445d-b954-f9fbb4cb8722"),
             valor = BigDecimal.TEN,
             destinatarioPix = DestinatarioPixRequest(
                 nomeDestinatario = "Loja Fast Food",

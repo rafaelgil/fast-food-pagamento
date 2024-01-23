@@ -1,7 +1,6 @@
 package br.com.fiap.postech.pagamento.application.domain.services
 
 import br.com.fiap.postech.pagamento.adapter.outbound.infrastructure.events.producer.QueueProducer
-import br.com.fiap.postech.pagamento.application.domain.dtos.ClienteDTO
 import br.com.fiap.postech.pagamento.application.domain.dtos.PedidoDTO
 import br.com.fiap.postech.pagamento.application.domain.models.Pagamento
 import br.com.fiap.postech.pagamento.application.domain.valueobject.DestinatarioPix
@@ -29,7 +28,7 @@ internal class PagamentoServicePortTest {
 
         val pedido = PedidoDTO(
             id = UUID.fromString("5e537dc4-0aaa-442d-a8ea-052251afd011"),
-            cliente = ClienteDTO(id = UUID.randomUUID(), cpf = "16731725129", "Joao Pedro", "joao@mock.com"),
+            clienteId = UUID.fromString("cad5f1c8-3cdf-445d-b954-f9fbb4cb8722"),
             valor = BigDecimal.TEN,
             destinatarioPix = DestinatarioPix(
                     nomeDestinatario = "Paula Fernandez",
