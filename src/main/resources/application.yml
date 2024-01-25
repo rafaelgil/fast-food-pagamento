@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://root:rootpassword@127.0.0.1:27017/admin
+      uri: ${MONGO_URL}
       database: fast-food-pagamento-um
   mongodb:
     embedded:
