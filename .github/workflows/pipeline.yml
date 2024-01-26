@@ -54,7 +54,8 @@ jobs:
         run: ./gradlew test
 
   sonar:
-    name: SonarCloud
+    needs: test
+    name: sonar
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -90,7 +91,7 @@ jobs:
         run: ./gradlew build sonar --info
 
   deploy:
-    needs: test
+    needs: sonar
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
