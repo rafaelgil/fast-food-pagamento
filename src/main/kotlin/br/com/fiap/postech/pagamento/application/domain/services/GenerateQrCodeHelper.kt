@@ -69,21 +69,6 @@ class GenerateQrCodeHelper {
         return JSONObject(json)
     }
 
-    private fun crcChecksum(partialCode: String): String {
-        var crc = 0xFFFF
-        val byteArray = partialCode.toByteArray()
-        for (b in byteArray) {
-            crc = crc xor (b.toInt() shl 8)
-            for (i in 0..7) {
-                crc = if ((crc and 0x8000) == 0) crc shl 1
-                else crc shl 1 xor 0x1021
-            }
-        }
-
-        val decimal = crc and 0xFFFF
-        return leftPad(Integer.toHexString(decimal), 4).toUpperCase()
-    }
-
     private fun leftPad(code: String): String {
         return leftPad(code, 2)
     }

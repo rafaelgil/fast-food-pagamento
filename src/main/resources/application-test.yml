@@ -9,7 +9,7 @@ cloud:
       access-key: localstack
       secret-key: localstack
     end-point:
-      uri: ${URL_SQS:http://localhost:4566}
+      uri: http://localhost:4566
 
 mongodb:
   authentication-database: admin

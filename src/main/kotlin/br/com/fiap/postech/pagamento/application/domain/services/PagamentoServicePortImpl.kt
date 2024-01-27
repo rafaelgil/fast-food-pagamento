@@ -26,8 +26,7 @@ class PagamentoServicePortImpl(
     override fun atualizarPagamento(pagamentoId: String, statusPagamento: StatusPagamento): Pagamento {
         val pagamento = pagamentoRepositoryPort.findById(pagamentoId)
 
-        pagamento.status = statusPagamento
-        //pagamento.mudarStatus(statusPagamento)
+        pagamento.mudarStatus(statusPagamento)
 
         val pagamentoAtualizado = pagamentoRepositoryPort.save(pagamento)
 

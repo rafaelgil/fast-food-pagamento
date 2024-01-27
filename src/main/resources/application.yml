@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://fast_food_pagamento_admin:fast_food_pagamento_root@fast-food-documentdb-0.csxw4cuf3uvj.us-east-1.docdb.amazonaws.com:27017/?retryWrites=false
+      uri: ${MONGO_URL}
       database: fast_food_pagamento
   main:
     allow-bean-definition-overriding: true
@@ -16,8 +16,8 @@ cloud:
     region:
       static: us-east-1
     credentials:
-      access-key: <sua access key>
-      secret-key: <sua secret key>
+      access-key: AKIAVNNVD5VDXXBHP5UT
+      secret-key: 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
     end-point:
       uri: ${URL_SQS:http://localhost:4566}
 

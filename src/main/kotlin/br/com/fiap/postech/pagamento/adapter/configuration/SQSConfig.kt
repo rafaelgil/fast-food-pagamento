@@ -21,14 +21,6 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient
 @EnableSqs
 @Configuration
 class SQSConfig {
-    @Value("\${cloud.aws.end-point.uri}")
-    private val endereco: String? = null
-
-    @Value("\${cloud.aws.region.static}")
-    private val regiao: String? = null
-
-    @Value("\${aws.queue.name}")
-    private val queueName: String? = null
 
     @Primary
     @Bean(name = ["amazonSQSAsync"], destroyMethod = "shutdown")
@@ -38,7 +30,7 @@ class SQSConfig {
     ): AmazonSQSAsync {
         return AmazonSQSAsyncClientBuilder
             .standard()
-            .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsEndpoint, region))
+            .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsEndpoint.replace("/notificacao-pagamento-sync", ""), region))
             .build()
     }
 

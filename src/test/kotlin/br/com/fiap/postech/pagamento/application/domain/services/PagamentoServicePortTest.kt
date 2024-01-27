@@ -4,6 +4,8 @@ import br.com.fiap.postech.pagamento.adapter.outbound.infrastructure.events.prod
 import br.com.fiap.postech.pagamento.application.domain.dtos.PedidoDTO
 import br.com.fiap.postech.pagamento.application.domain.models.Pagamento
 import br.com.fiap.postech.pagamento.application.domain.valueobject.DestinatarioPix
+import br.com.fiap.postech.pagamento.application.domain.valueobject.FormaPagamento
+import br.com.fiap.postech.pagamento.application.domain.valueobject.StatusPagamento
 import br.com.fiap.postech.pagamento.application.ports.repositories.PagamentoRepositoryPort
 import io.mockk.every
 import io.mockk.mockk
@@ -53,5 +55,29 @@ internal class PagamentoServicePortTest {
             .isEqualTo("QR_CODE")
 
         verify(exactly = 1) { pagamentoRepositoryPort.save(any()) }
+    }
+
+    @Test
+    fun `Deveria atualizar o pagamento do pedido`() {
+
+        val pagamento = Pagamento(
+            id = UUID.fromString("5a5faefa-6eb0-48ab-99d8-a65dbe9472df"),
+            pedidoId = UUID.randomUUID(),
+            status = StatusPagamento.AGUARDANDO_PAGAMENTO,
+            formaPagamento = FormaPagamento(qrCodeValor = "QRCODE_"),
+            valor = BigDecimal.ONE
+        )
+
+        every { pagamentoRepositoryPort.findById(any()) } returns pagamento
+        every { pagamentoRepositoryPort.save(any()) }.returnsArgument(0)
+        every { queueProducer.sendMessage(any()) } returns Unit
+
+        val pagamentoAtualizado = pagamentoServicePort.atualizarPagamento(pagamento.id.toString(), StatusPagamento.PAGO)
+
+        assertThat(pagamentoAtualizado.status)
+            .isEqualTo(StatusPagamento.PAGO)
+
+        verify(exactly = 1) { pagamentoRepositoryPort.findById(any()) }
+        verify(exactly = 1) { queueProducer.sendMessage(any())}
     }
 }

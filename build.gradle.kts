@@ -18,6 +18,9 @@ java {
 
 repositories {
 	mavenCentral()
+	maven {
+		url = uri("https://plugins.gradle.org/m2/")
+	}
 }
 
 dependencies {
@@ -31,6 +34,7 @@ dependencies {
 	implementation("software.amazon.awssdk:sqs:2.16.24")
 	implementation("com.amazonaws:aws-java-sdk-core:1.11.589")
 	implementation("com.amazonaws:aws-java-sdk:1.11.584")
+	implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
@@ -55,6 +59,20 @@ jacoco {
 	toolVersion = "0.8.9"
 }
 
+tasks.test {
+	finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.7".toBigDecimal()
+			}
+		}
+	}
+}
+
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
 	reports {
@@ -69,10 +87,16 @@ tasks.withType<JacocoCoverageVerification> {
 		classDirectories.setFrom(files(classDirectories.files.map {
 			fileTree(it).apply {
 				exclude(
-					"**/config/**",
-					"**/exception/**",
+					"**/configuration/**",
+					"**/exceptions/**",
+					"**/extensions/**",
 					"**/ControllerAdvice.*",
-					"**/FastFoodApplication.*"
+					"**/dtos/**",
+					"**/.Response*",
+					"**/.Request*",
+					"**/entities/**",
+					"**/producer/**",
+					"**/FastFoodPagamentoApplication.*"
 				)
 			}
 		}))
@@ -84,9 +108,15 @@ tasks.withType<JacocoReport> {
 		classDirectories.setFrom(files(classDirectories.files.map {
 			fileTree(it).apply {
 				exclude(
-					"**/config/**",
-					"**/exception/**",
+					"**/configuration/**",
+					"**/exceptions/**",
+					"**/extensions/**",
 					"**/ControllerAdvice.*",
+					"**/dtos/**",
+					"**/.Response*",
+					"**/.Request*",
+					"**/entities/**",
+					"**/producer/**",
 					"**/FastFoodPagamentoApplication.*"
 				)
 			}
@@ -109,8 +139,8 @@ sonar {
 		property("sonar.organization", "fiappostech")
 		property("sonar.projectName", "fast-food-pagamento")
 		property("sonar.host.url", "https://sonarcloud.io")
-		property("sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.dir("/reports/jacoco/test/*.xml"))
 		property("sonar.java.coveragePlugin", "jacoco")
+		property("sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.dir("/reports/jacoco/test/*.xml"))
 		property("sonar.coverage.exclusions",coverageExclusions)
 		property("sonar.exclusions", coverageExclusions)
 	}
