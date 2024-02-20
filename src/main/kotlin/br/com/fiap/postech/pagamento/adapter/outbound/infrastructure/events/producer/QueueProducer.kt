@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class QueueProducer(
-    @Value("\${aws.queue.name}")
+    @Value("\${aws.queue.notificacao-pagamento.name}")
     private val destination: String,
     @Autowired
     val queueMessagingTemplate: QueueMessagingTemplate

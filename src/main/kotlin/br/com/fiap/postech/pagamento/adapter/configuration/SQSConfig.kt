@@ -3,6 +3,7 @@ package br.com.fiap.postech.pagamento.adapter.configuration
 import com.amazonaws.client.builder.AwsClientBuilder
 import com.amazonaws.services.sqs.AmazonSQSAsync
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.aws.messaging.config.QueueMessageHandlerFactory
 import org.springframework.cloud.aws.messaging.config.annotation.EnableSqs
@@ -14,33 +15,28 @@ import org.springframework.context.annotation.Primary
 import org.springframework.messaging.converter.MappingJackson2MessageConverter
 import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver
 import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
-import software.amazon.awssdk.services.sqs.SqsAsyncClient
 
 
 @EnableSqs
 @Configuration
 class SQSConfig {
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @Primary
     @Bean(name = ["amazonSQSAsync"], destroyMethod = "shutdown")
     fun amazonSQSAsync(
-        @Value("\${cloud.aws.end-point.uri}") sqsEndpoint: String,
-        @Value("\${cloud.aws.region.static}") region: String
+        @Value("\${aws.cloud.end-point.uri}") sqsEndpoint: String,
+        @Value("\${aws.cloud.region.static}") region: String
     ): AmazonSQSAsync {
+
+        logger.info("sqsEndpoint: $sqsEndpoint")
+
         return AmazonSQSAsyncClientBuilder
             .standard()
-            .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsEndpoint.replace("/notificacao-pagamento-sync", ""), region))
+            .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(sqsEndpoint, region))
             .build()
     }
-
-    @Bean
-    fun sqsAsyncClient(@Value("\${cloud.aws.region.static}") region: String): SqsAsyncClient {
-        return SqsAsyncClient.builder()
-            .credentialsProvider(DefaultCredentialsProvider.create())
-            .build()
-    }
-
     @Bean
     fun queueMessagingTemplate(amazonSQSAsync: AmazonSQSAsync): QueueMessagingTemplate {
         return QueueMessagingTemplate(amazonSQSAsync)
@@ -59,4 +55,5 @@ class SQSConfig {
 
         return queueMessageHandler
     }
+
 }

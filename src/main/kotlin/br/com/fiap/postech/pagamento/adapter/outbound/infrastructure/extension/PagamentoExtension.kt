@@ -7,7 +7,7 @@ import java.util.*
 
 fun Pagamento.toPagamentoEntity(id: UUID = UUID.randomUUID()): PagamentoEntity {
     return PagamentoEntity(
-        id = id.toString(),
+        id = this.id?.toString() ?: id.toString(),
         pedidoId = pedidoId.toString(),
         status = this.status.name,
         formaPagamento = this.formaPagamento,
