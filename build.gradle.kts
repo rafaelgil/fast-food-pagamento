@@ -35,6 +35,8 @@ dependencies {
 	implementation("com.amazonaws:aws-java-sdk-core:1.11.589")
 	implementation("com.amazonaws:aws-java-sdk:1.11.584")
 	implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373")
+	// dependency for aws secrets manager
+	implementation("software.amazon.awssdk:secretsmanager:2.16.24")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")

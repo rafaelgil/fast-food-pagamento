@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:rootpassword@localhost:27017/fast-food-pagamento?authSource=admin
+  main:
+    allow-bean-definition-overriding: true
+
+aws:
+  cloud:
+    stack:
+      auto: false
+    region:
+      static: us-east-1
+    end-point:
+      uri: http://localhost:4566

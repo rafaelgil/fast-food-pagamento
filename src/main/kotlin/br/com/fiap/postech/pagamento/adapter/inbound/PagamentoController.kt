@@ -22,4 +22,11 @@ class PagamentoController(
         return pagamentoServicePort.criarPagamento(pedidoRequest.toPedidoDTO()).toPagamentoResponse()
     }
 
+    @GetMapping("/{id}")
+    fun consultarPagamento(@PathVariable id: UUID): PagamentoResponse {
+        logger.info("Consultando pagamento ${id}")
+
+        return pagamentoServicePort.buscarPagamentoPorId(id).toPagamentoResponse()
+    }
+
 }

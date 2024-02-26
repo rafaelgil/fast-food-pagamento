@@ -8,6 +8,7 @@ import br.com.fiap.postech.pagamento.application.domain.valueobject.StatusPagame
 import br.com.fiap.postech.pagamento.application.ports.interfaces.PagamentoServicePort
 import br.com.fiap.postech.pagamento.application.ports.repositories.PagamentoRepositoryPort
 import com.fasterxml.jackson.databind.ObjectMapper
+import java.util.*
 
 class PagamentoServicePortImpl(
     private val pagamentoRepositoryPort: PagamentoRepositoryPort,
@@ -34,4 +35,6 @@ class PagamentoServicePortImpl(
 
         return pagamentoAtualizado
     }
+
+    override fun buscarPagamentoPorId(pagamentoId: UUID) = pagamentoRepositoryPort.findById(pagamentoId.toString())
 }

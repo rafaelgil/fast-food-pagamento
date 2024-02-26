@@ -4,30 +4,21 @@ server:
 spring:
   data:
     mongodb:
-      uri: ${MONGO_URL}
+      uri: mongodb://fast_food_pagamento_admin:fast_food_pagamento_root@fast-food-documentdb-0.csxw4cuf3uvj.us-east-1.docdb.amazonaws.com:27017/?retryWrites=false
       database: fast_food_pagamento
   main:
     allow-bean-definition-overriding: true
 
-cloud:
-  aws:
+aws:
+  cloud:
     stack:
       auto: false
     region:
       static: us-east-1
-    credentials:
-      access-key: AKIAVNNVD5VDXXBHP5UT
-      secret-key: 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
     end-point:
-      uri: ${URL_SQS:http://localhost:4566}
-
-aws:
+      uri: https://sqs.us-east-1.amazonaws.com/372431383879
   queue:
-    name: notificacao-pagamento-sync
+    notificacao-pagamento:
+      name: notificacao-pagamento
 
-mongodb:
-  authentication-database: admin
-  database: fast-food-pagamento
-  url: mongodb://127.0.0.1:27017
-  username: root
-  password: rootpassword
+

@@ -3,3 +3,13 @@ mongodb:
   url: "mongodb://127.0.0.1:47047"
   username: "test"
   password: "test"
+  authentication-database: "admin"
+
+aws:
+  cloud:
+    stack:
+      auto: false
+    region:
+      static: us-east-1
+    end-point:
+      uri: http://localhost:4566
