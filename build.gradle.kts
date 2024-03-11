@@ -26,6 +26,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.json:json:20231013")
@@ -44,6 +45,7 @@ dependencies {
 
 	testImplementation(group = "io.mockk", name = "mockk", version = "1.10.2")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
+	testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {
