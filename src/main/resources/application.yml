@@ -20,5 +20,7 @@ aws:
   queue:
     notificacao-pagamento:
       name: notificacao-pagamento
+    notificacao-pagamento-error:
+      name: notificacao-pagamento-error
 
 

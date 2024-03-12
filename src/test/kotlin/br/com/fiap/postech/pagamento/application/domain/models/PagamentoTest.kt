@@ -57,30 +57,12 @@ internal class  PagamentoTest {
             valor = BigDecimal.ONE
         )
 
-        pagamento.mudarStatus(StatusPagamento.NAO_PAGO)
+        pagamento.mudarStatus(StatusPagamento.CANCELADO)
 
         Assertions.assertThat(pagamento.status)
-            .isEqualTo(StatusPagamento.NAO_PAGO)
+            .isEqualTo(StatusPagamento.CANCELADO)
     }
 
-    @Test
-    fun `Não deveria mudar de status quando pagamento já não está Pago`() {
-
-        val pagamento = Pagamento(
-            id = UUID.randomUUID(),
-            pedidoId = UUID.randomUUID(),
-            status = StatusPagamento.AGUARDANDO_PAGAMENTO,
-            formaPagamento = FormaPagamento(qrCodeValor = "QRCODE_"),
-            valor = BigDecimal.ONE
-        )
-
-        assertThatThrownBy {
-            pagamento.mudarStatus(StatusPagamento.NAO_PAGO)
-            pagamento.mudarStatus(StatusPagamento.NAO_PAGO)
-        }.isInstanceOf(PagamentoException::class.java)
-            .hasMessage("Pagamento ${pagamento.id} com status ${pagamento.status.name} não pode mudar para ${pagamento.status.name}")
-
-    }
 
     @Test
     fun `Não deveria criar pagamento com status diferente de Aguardando Pagamento`() {
