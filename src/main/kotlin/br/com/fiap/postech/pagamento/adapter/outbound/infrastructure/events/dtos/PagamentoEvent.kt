@@ -7,3 +7,7 @@ class PagamentoEvent(
     val status: String,
     val pedidoId: UUID
 )
+
+class PagamentoErrorEvent(
+    val pedidoId: UUID
+)
