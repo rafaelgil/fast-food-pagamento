@@ -1,6 +1,7 @@
 package br.com.fiap.postech.pagamento.adapter.exceptions
 
 import br.com.fiap.postech.pagamento.application.domain.exception.PagamentoException
+import br.com.fiap.postech.pagamento.application.domain.exception.PagamentoNaoEncontradoException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -19,5 +20,17 @@ class ControllerAdvice() {
 
         return ResponseEntity(erro, HttpStatus.BAD_REQUEST)
     }
+
+    @ExceptionHandler(PagamentoNaoEncontradoException::class)
+    fun handlePagamentoNaoEncontradoException(ex: PagamentoNaoEncontradoException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val erro = ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            ex.localizedMessage
+        )
+
+        return ResponseEntity(erro, HttpStatus.BAD_REQUEST)
+    }
+
+
 
 }
