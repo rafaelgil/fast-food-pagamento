@@ -1,7 +1,9 @@
 package br.com.fiap.postech.pagamento.application.domain.services
 
-import br.com.fiap.postech.pagamento.adapter.outbound.infrastructure.events.producer.QueueProducer
+import br.com.fiap.postech.pagamento.adapter.outbound.infrastructure.events.producer.PagamentoPedidoErrorQueueProducer
+import br.com.fiap.postech.pagamento.adapter.outbound.infrastructure.events.producer.PagamentoPedidoQueueProducer
 import br.com.fiap.postech.pagamento.application.domain.dtos.PedidoDTO
+import br.com.fiap.postech.pagamento.application.domain.exception.PagamentoNaoEncontradoException
 import br.com.fiap.postech.pagamento.application.domain.models.Pagamento
 import br.com.fiap.postech.pagamento.application.domain.valueobject.DestinatarioPix
 import br.com.fiap.postech.pagamento.application.domain.valueobject.FormaPagamento
@@ -20,9 +22,11 @@ internal class PagamentoServicePortTest {
 
     private val pagamentoRepositoryPort = mockk<PagamentoRepositoryPort>()
 
-    private val queueProducer = mockk<QueueProducer>()
+    private val queueProducer = mockk<PagamentoPedidoQueueProducer>()
 
-    private val pagamentoServicePort = PagamentoServicePortImpl(pagamentoRepositoryPort, queueProducer)
+    private val queueErrorProducer = mockk<PagamentoPedidoErrorQueueProducer>()
+
+    private val pagamentoServicePort = PagamentoServicePortImpl(pagamentoRepositoryPort, queueProducer, queueErrorProducer)
 
 
     @Test
@@ -79,5 +83,32 @@ internal class PagamentoServicePortTest {
 
         verify(exactly = 1) { pagamentoRepositoryPort.findById(any()) }
         verify(exactly = 1) { queueProducer.sendMessage(any())}
+        verify(exactly = 0) { queueErrorProducer.sendMessage(any())}
+    }
+
+    @Test
+    fun `Deveria enviar mensagem para cancelar pedido quando dar erro no pagamento`() {
+
+        val pagamento = Pagamento(
+            id = UUID.fromString("5a5faefa-6eb0-48ab-99d8-a65dbe9472df"),
+            pedidoId = UUID.randomUUID(),
+            status = StatusPagamento.AGUARDANDO_PAGAMENTO,
+            formaPagamento = FormaPagamento(qrCodeValor = "QRCODE_"),
+            valor = BigDecimal.ONE
+        )
+
+        every { pagamentoRepositoryPort.findById(any()) } returns pagamento
+        every { pagamentoRepositoryPort.save(any()) }.returnsArgument(0)
+        every { queueProducer.sendMessage(any()) } throws Exception()
+        every { queueErrorProducer.sendMessage(any()) } returns Unit
+
+        val pagamentoAtualizado = pagamentoServicePort.atualizarPagamento(pagamento.id.toString(), StatusPagamento.PAGO)
+
+        assertThat(pagamentoAtualizado.status)
+            .isEqualTo(StatusPagamento.CANCELADO)
+
+        verify(exactly = 1) { pagamentoRepositoryPort.findById(any()) }
+        verify(exactly = 1) { queueProducer.sendMessage(any())}
+        verify(exactly = 1) { queueErrorProducer.sendMessage(any())}
     }
 }

@@ -24,8 +24,8 @@ data class Pagamento (
                 mudarStatusPago()
             }
 
-            status == StatusPagamento.NAO_PAGO -> {
-                mudarStatusNaoPago()
+            status == StatusPagamento.CANCELADO -> {
+                mudarStatusCancelado()
             }
         }
     }
@@ -49,12 +49,8 @@ data class Pagamento (
         this.status = StatusPagamento.PAGO
     }
 
-    private fun mudarStatusNaoPago(){
-        if(this.status != StatusPagamento.AGUARDANDO_PAGAMENTO ){
-            lancarErroMudancaStatusIncorreto(StatusPagamento.NAO_PAGO)
-        }
-
-        this.status = StatusPagamento.NAO_PAGO
+    private fun mudarStatusCancelado(){
+        this.status = StatusPagamento.CANCELADO
     }
 
     private fun lancarErroMudancaStatusIncorreto(status: StatusPagamento) {
